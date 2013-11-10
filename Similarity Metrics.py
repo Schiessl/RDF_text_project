@@ -90,7 +90,7 @@ def cosine_similarity(doc1,doc2):
         return float(dot(v1,v2) / (norm(v1) * norm(v2)+10**(-200))) # the power is just to avoid division by 0 
 
 def jaccard(doc1,doc2):
-    """ (string, string) -> number 
+    """ (string, string) -> float 
     Return the coefficient of similarity between two texts as the size of the 
     intersection divided by the size of the union of the texts. It equates 1 for
     exact match and 0 to no similarity.
@@ -104,7 +104,7 @@ def jaccard(doc1,doc2):
     return float(len(intersec)/len(union))
     
 def string_matching(label1, label2): #by Maedchen and Staab
-    """ (string, string) -> number 
+    """ (string, string) -> float 
     Return the coefficient of similarity between two sequence of strings based on
     the Levenshtein distance (edit distance). It equates 1 for exact match and 
     0 to no similarity.
@@ -119,7 +119,7 @@ def string_matching(label1, label2): #by Maedchen and Staab
         return float(min(len(label1),len(label2)) - edit_distance(label1, label2))/min(len(label1),len(label2))
 
 def dice_coefficient(a, b):
-    """ (string, string) -> number 
+    """ (string, string) -> float 
     Return the coefficient of similarity between two sequence of strings. Based 
     on Jaccard coefficient, it gives twice the weigth to agreements. It equates 
     1 for exact match and 0 to no similarity.
