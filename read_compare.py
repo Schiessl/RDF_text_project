@@ -38,13 +38,13 @@ str2 = ''
 for i in range(len(text1)):
     lin1 = ''.join(text1[i])
     if lin1.find('#') != -1:#check whether there's a label in the line
-        #str1 = re.search(r'#(.*)', lin1).group(1)
-        str1 = re.sub(r'https?://[^# ]+#?', '', lin1)
+        str1a = re.sub(r'https?://[^# ]+#?', '', lin1)
+        str1 = re.sub(r'[()]', '', str1a)
     for j in range(len(text2)):
         lin2 = ''.join(text2[j])
         if lin2.find('#') != -1:
-            #str2 = re.search(r'#(.*)', lin2).group(1)
-            str2 = re.sub(r'https?://[^# ]+#?', '', lin2)
+            str2a = re.sub(r'https?://[^# ]+#?', '', lin2)
+            str2 = re.sub(r'[()]', '', str2a)
             print '============'
             print i, 'x',j, '-', str1.lower(), '-',str2.lower(), '-','Jaccard Similarity = ', jaccard(str1.lower(),str2.lower())
 
