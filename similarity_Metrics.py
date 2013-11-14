@@ -7,8 +7,8 @@ from numpy import zeros,dot
 from numpy.linalg import norm
 from nltk.metrics import *
 from nltk.corpus import stopwords
-#from fuzzycomp import fuzzycomp
 import jellyfish
+import sys, traceback, os
 
 # preprocessing step to remove stop words and stem words.
 def preproc_txt(doc, stemm):
@@ -171,7 +171,7 @@ def string_matching(label1, label2): #by Maedchen and Staab
         print "Error found:"
         traceback.print_exc(file=sys.stdout)
 
-def ss(reference_txt,doc1):#still in development
+def ss(reference_txt,doc1): #still in development
     """ (string, string) -> float 
     Return the proportion of the set A which overlaps the set B, which is 
     the reference text.
@@ -185,13 +185,16 @@ def ss(reference_txt,doc1):#still in development
     a = set(reference_txt.split())
     b = set(doc1.split())
     try:
-        return float(
-        (len(a.intersection(b)))*len(a.union(b))/
-        (len(a)*len(b))
-        )
-    except:
-        print "Error found:"
-        traceback.print_exc(file=sys.stdout)
+        if len(a) or len(b) > 0:
+            return float(
+            (len(a.intersection(b)))*len(a.union(b))/
+            (len(a)*len(b))
+            )
+        else:
+            return 0.
+    except Exception, e:
+        print repr(e)
+        return repr(e)
 
 def lcs_length(X, Y):#still in development
     m = len(X)
@@ -216,10 +219,6 @@ def lcs_length(X, Y):#still in development
 #                  )
 
 def preproc(doc,numStemmer):
-    pproc_doc = preproc_txt(no_punctuation(doc), numStemmer).lower() #number represent the stemmer algorithm to use
-    return pproc_doc
-
-def pp(doc,numStemmer):
     pproc_doc = preproc_txt(no_punctuation(doc), numStemmer).lower() #number represent the stemmer algorithm to use
     return pproc_doc
 
