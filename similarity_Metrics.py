@@ -215,6 +215,14 @@ def lcs_length(X, Y):#still in development
 #                  (len(set(a.split())) + len(set(b.split())) - len(c))
 #                  )
 
+def preproc(doc,numStemmer):
+    pproc_doc = preproc_txt(no_punctuation(doc), numStemmer).lower() #number represent the stemmer algorithm to use
+    return pproc_doc
+
+def pp(doc,numStemmer):
+    pproc_doc = preproc_txt(no_punctuation(doc), numStemmer).lower() #number represent the stemmer algorithm to use
+    return pproc_doc
+
 if __name__ == '__main__':
 
     """ Example of the texts to compare"""
@@ -237,9 +245,10 @@ if __name__ == '__main__':
     print "Doc2. Preprocessed text: %s \n" % pproc_doc2
     
     # distance metrics
-    # preprocessed text - stopwords, stemming, removing puncttuation
+    # preprocessed text - stopwords, stemming, removing punctuation
     print "Cosine Similarity = %s \n" % round(cosine_similarity(pproc_doc1,pproc_doc2),3)
     print "Jaccard's coefficientt = %s \n" % round(jaccard(pproc_doc1, pproc_doc2),3)
+    print "Jaccard's coefficientt = %s \n" % round(jaccard(preproc(doc1,1), preproc(doc2,3)),1)#function of preprocessing
     print "Dice Coefficient = %s \n" % round(dice(pproc_doc1, pproc_doc2),3)
     print "String Subset Measure = %s \n" % round(ss(pproc_doc1, pproc_doc2),3)
     print "String Matching similarity measure = %s \n" % round(string_matching(pproc_doc1, pproc_doc2),3)

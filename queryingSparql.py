@@ -5,13 +5,20 @@ import rdflib
 from rdflib import plugin
 from rdflib.graph import Graph
 import sys,traceback
+
+#Variables to edit manually
+path = '/Users/marceloschiessl/Documents/workspaceWTA/NLP prog/dados/TESTES ONTOLOGIA/'
+file_name = 'example_schematriples' 
+extOnto = '.owl'
+extTxt = '.txt'
+aspas = '"'
+
+ontoFile = path + file_name + extOnto
  
 g = Graph()
-# g.parse("/Users/marceloschiessl/Documents/workspaceWTA/NLP prog/dados/TESTES ONTOLOGIA/101 - DR1/DSO- 101-1 A.owl")
-# g.parse("/Users/marceloschiessl/Documents/workspaceWTA/NLP prog/dados/TESTES ONTOLOGIA/Onto 2 - grupo 1/104/onto 2- 104.rdf")
-g.parse("/Users/marceloschiessl/Documents/workspaceWTA/NLP prog/dados/TESTES ONTOLOGIA/Onto 2 - grupo 1/203/onto 2 - 203.rdf")
-from rdflib.namespace import Namespace
-ns = Namespace("http://oaei.ontologymatching.org/2011/benchmarks/101/onto.rdf#")
+g.parse(ontoFile)#do not modify anything here!
+# from rdflib.namespace import Namespace
+# ns = Namespace("http://oaei.ontologymatching.org/2011/benchmarks/101/onto.rdf#")
  
 plugin.register(
     'sparql', rdflib.query.Processor,
@@ -22,7 +29,7 @@ plugin.register(
 #
 qres = g.query(
                 """
-                    SELECT  DISTINCT ?varClass ?varSubClass ?varSubClassComment ?varProperty ?varPropComment
+                    SELECT DISTINCT ?varClass ?varSubClass ?varSubClassComment ?varProperty ?varPropComment
                         WHERE { 
                                 { 
                                     ?varClass rdf:type owl:Class .
@@ -36,21 +43,19 @@ qres = g.query(
                                 }
                             }
                 """
-                , initNs=dict(
-                                ns=Namespace("http://oaei.ontologymatching.org/2011/benchmarks/101/onto.rdf#")
-                              )
+#                 , initNs=dict(
+#                                 ns=Namespace("http://oaei.ontologymatching.org/2011/benchmarks/101/onto.rdf#")
+#                               )
                )
 
 for row in qres.result:
     print ("%s %s %s %s %s" % row) # %s represent the fields selected in the query
 
-print (len(qres.result)) #rows in the file
+# print (len(qres.result)) #rows in the file
 #
 ## Creating documents to compare
-## It creates text files with the result of sparql query in order to be compared 
-path = '//Users/marceloschiessl/Documents/workspaceWTA/NLP prog/dados/TESTES ONTOLOGIA/'
-file_name = 'doc3' 
-file_created = path + file_name + '.txt'
+## It creates text files with the result of sparql query
+textFile = path + file_name + extTxt
 
 def createPhysicalFile(stringPath):
 #creating physical file
@@ -60,10 +65,10 @@ def createPhysicalFile(stringPath):
         for row in qres.result:
             print>>to_file, ("%s %s %s %s %s" % row) #creating body
         to_file.close() #closing the file
-        return True
+        return 'File created successfully ', str(len(qres.result)) + ' lines', True, 
     except:
         print "Error found:"
         traceback.print_exc(file=sys.stdout)
         return False
 
-print createPhysicalFile(file_created)
+print createPhysicalFile(textFile)
