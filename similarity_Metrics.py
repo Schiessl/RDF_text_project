@@ -114,7 +114,6 @@ def cosine_similarity(doc1,doc2):
         except:
             print "Error found:"
             traceback.print_exc(file=sys.stdout)
-            
 
 def jaccard(doc1,doc2):
     """ (string, string) -> float 
@@ -247,7 +246,7 @@ if __name__ == '__main__':
     # preprocessed text - stopwords, stemming, removing punctuation
     print "Cosine Similarity = %s \n" % round(cosine_similarity(pproc_doc1,pproc_doc2),3)
     print "Jaccard's coefficientt = %s \n" % round(jaccard(pproc_doc1, pproc_doc2),3)
-    print "Jaccard's coefficientt = %s \n" % round(jaccard(preproc(doc1,1), preproc(doc2,3)),1)#function of preprocessing
+    print "Jaccard's coefficientt = %s \n" % round(jaccard(preproc(doc1,1), preproc(doc2,1)),1)#function of preprocessing
     print "Dice Coefficient = %s \n" % round(dice(pproc_doc1, pproc_doc2),3)
     print "String Subset Measure = %s \n" % round(ss(pproc_doc1, pproc_doc2),3)
     print "String Matching similarity measure = %s \n" % round(string_matching(pproc_doc1, pproc_doc2),3)

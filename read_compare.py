@@ -10,7 +10,7 @@ os.chdir('/Users/marceloschiessl/RDF_text_project')
 
 import similarity_Metrics
 from similarity_Metrics import *
-from similarity_Metrics import jaccard, ss
+from similarity_Metrics import jaccard, ss, dice
 #from queryingSparql import createPhysicalFile
     
 ############ Doc input ###########
@@ -61,21 +61,22 @@ def compare(reference, compare):
     str2 = ''
     wFile = compare + ".output.txt"
     to_file = open(wFile, 'w') #opening the file to write
-    print>>to_file, 'line x Files textFile1 textFile2 firstMeasure' #creating header
+    print>>to_file, 'line x Files lineFile1 lineFile2 Jaccard SubsetString Dice' #creating header
     for i in range(len(text1)):
         lin1 = ''.join(text1[i])
         if lin1.find('#') != -1:#check whether there's a label in the line
             str1a = re.sub(r'https?://[^# ]+#?', '', lin1)
-            str1 = re.sub(r'[()]', '', str1a)
+            str1b = re.sub('None', '', str1a)
+            str1 = re.sub(r'[()]', '', str1b)
         for j in range(len(text2)):
             lin2 = ''.join(text2[j])
             if lin2.find('#') != -1:
                 str2a = re.sub(r'https?://[^# ]+#?', '', lin2)
-                str2 = re.sub(r'[()]', '', str2a)
+                str2b = re.sub('None', '', str2a)
+                str2 = re.sub(r'[()]', '', str2b)
                 #print '============'
-                print>>to_file, str(i) + 'x' + str(j) + ' # ' + str1.lower() + ' || ' + str2.lower() + ' - ' + 'Jaccard Similarity = ' + str(round(jaccard(str1.lower(),str2.lower()),2)), 'String Subset = ', ss(str1.lower(),str2.lower())
-                print str(i) + 'x' + str(j) + ' # ' + str1.lower() + ' || ' + str2.lower() + ' - ' + 'Jaccard Similarity = ' + str(round(jaccard((str1),str2))), 'String Subset = ', ss(str1.lower(),str2.lower())
-                #print i, 'x',j, '-', str1.lower(), '-',str2.lower(), '-','Jaccard Similarity = ', jaccard(str1.lower(),str2.lower()), 'String Subset = ', ss(str1.lower(),str2.lower())
+                print>>to_file, str(i) + 'x' + str(j) + ' | ' + str1.lower() + ' | ' + str2.lower() + ' | ' + 'Jaccard = ' + str(round(jaccard((str1),str2))) + ' | ' + 'String Subset = ' + str(round(ss(str1.lower(),str2.lower()),2)) + ' | ' + 'Dice = ' + str(round(dice(str1.lower(),str2.lower()),2))
+                print str(i) + 'x' + str(j) + ' | ' + str1.lower() + ' | ' + str2.lower() + ' | ' + 'Jaccard = ' + str(round(jaccard((str1),str2))) + ' | ' + 'String Subset = ' + str(round(ss(str1.lower(),str2.lower()),2)) + ' | ' + 'Dice = ' + str(round(dice(str1.lower(),str2.lower()),2))
     
     to_file.close() #closing the file
     return             
@@ -83,3 +84,4 @@ def compare(reference, compare):
 #defining files to be compared
 print compare(file_read1,file_read2)
 print compare(file_read1,file_read3)
+
